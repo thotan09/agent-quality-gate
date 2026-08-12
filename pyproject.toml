@@ -1,0 +1,72 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-quality-gate"
+version = "0.1.0"
+description = "Provider-independent CI quality gates for LLM, RAG, and tool-using agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Naveen Thota"}]
+keywords = ["ai-testing", "llm-evaluation", "rag", "quality-engineering", "ci-cd"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "PyYAML>=6.0.2,<7",
+    "regex>=2024.11.6,<2027",
+]
+
+[project.scripts]
+agent-quality-gate = "agent_quality_gate.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/thotan09/agent-quality-gate"
+Repository = "https://github.com/thotan09/agent-quality-gate"
+Issues = "https://github.com/thotan09/agent-quality-gate/issues"
+
+[dependency-groups]
+dev = [
+  "build>=1.2.2",
+  "mypy>=1.14",
+  "pytest>=8.3",
+  "pytest-cov>=6.0",
+  "ruff>=0.9",
+  "types-PyYAML>=6.0.12",
+  "types-regex>=2026.4.21",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent_quality_gate"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["agent_quality_gate"]
+
+[tool.coverage.run]
+branch = true
+source = ["agent_quality_gate"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
